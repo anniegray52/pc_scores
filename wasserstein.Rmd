@@ -1,0 +1,42 @@
+---
+title: "Dimension Selection"
+author: "Annie Gray"
+# date: "19/09/2022"
+output: html_document
+---
+
+
+
+```{r setup, include=FALSE}
+library(Matrix)
+library(dimension)
+library(transport)
+```
+
+## Dimension selection
+
+
+```{r}
+n = 500 
+p = 500 
+sigma = 1
+split = .5
+```
+
+
+
+```{r, echo=FALSE}
+poly_kernel = function(Z, c, r)
+  (Z %*% t(Z) + c) ^ r
+
+make_circle = function(n, x = 0,y = 0, r = 1){
+  s = runif(n, 0, 2*pi)
+  cbind(r*cos(s) + x, r*sin(s) + y)
+}
+```
+
+```{r}
+sizes = c(rmultinom(n = 1, size = n, prob = rep(1/4, 4)))
+Z = rbind(make_circle(sizes[1],0,1),make_circle(sizes[2],0,-1),make_circle(sizes[3],1,0),make_circle(sizes[4],-1,0))
+Z[1:5,]
+```
